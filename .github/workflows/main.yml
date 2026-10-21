@@ -1,15 +1,24 @@
 name: Daily TNPSC Reminder
 
 on:
+  push:
+    branches: [ main ]
   schedule:
-    # இந்திய நேரப்படி (IST) தினமும் காலை 7:00 மணி (UTC 01:30)
+    # 01:30 UTC + 05:30 = சரியாக காலை 7:00 மணி (Indian Standard Time)
     - cron: '30 1 * * *'
   workflow_dispatch:
+
+env:
+  TZ: 'Asia/Kolkata' # இந்திய நேரம் (+5:30 IST)
 
 jobs:
   trigger-bot:
     runs-on: ubuntu-latest
     steps:
+      - name: Check Indian Time (+5:30)
+        run: |
+          echo "தற்போதைய இந்திய நேரம் (IST): $(date)"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
